@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pudelko.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -40,5 +41,28 @@ namespace Pudelko
         }
         
 
+
+        public static double[] ThreeFromAny(double a, double b, double c, UnitOfMeasure current)
+        {
+            if(current == UnitOfMeasure.meter)
+                return ThreeFromMeter(a, b, c);
+            if(current == UnitOfMeasure.centimeter)
+                return ThreeFromCentimeter(a, b, c);
+            return new double[] { a, b, c };
+        }
+        public static double[] ThreeToAny(double a, double b, double c, UnitOfMeasure desired)
+        {
+            if(desired == UnitOfMeasure.meter)
+                return new double[] {ToMeter(a), ToMeter(b), ToMeter(c)};
+            if (desired == UnitOfMeasure.centimeter)
+                return new double[] { ToCentimeter(a), ToCentimeter(b), ToCentimeter(c) };
+            return new double[] { a, b, c };
+        }
+
+        public static double[] ThreeFromAnyToAny(double a, double b, double c, UnitOfMeasure current, UnitOfMeasure desired)
+        {
+            double[] converted = ThreeFromAny(a, b, c, current);
+            return ThreeToAny(converted[0], converted[1], converted[2], desired);
+        }
     }
 }

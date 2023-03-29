@@ -14,7 +14,6 @@ namespace Pudelko
         //To do
         //IFormatable
         //8 Operator +
-        //9
         //10
         //11
         //12
@@ -47,8 +46,10 @@ namespace Pudelko
             this.a = dimensions[0];
             this.b = dimensions[1];
             this.c = dimensions[2];
+            unitOfMeasure = unit;
 
         }
+
 
 
         //Variables
@@ -75,6 +76,7 @@ namespace Pudelko
         {
             get { return Math.Round((2 * (A * B) + 2 * (B * C) + 2 * (C * A)), 6); }
         }
+
 
 
         //To String
@@ -105,6 +107,8 @@ namespace Pudelko
             }
         }
 
+
+
         //Equatable
         public override bool Equals(object obj)
         {
@@ -115,41 +119,35 @@ namespace Pudelko
         }
         public bool Equals(Pudelko box)
         {
-            //return Equals(box, UnitOfMeasure.milimeter);
-            if (box == null || GetType() != box.GetType())
+            if (box is null || GetType() != box.GetType())
             {
                 return false;
             }
             // TODO: write your implementation of Equals() here
 
-            Console.WriteLine();
-            Console.WriteLine(box.unitOfMeasure);
-            Console.WriteLine(box.a);
-            Console.WriteLine(box.b);
-            Console.WriteLine(box.c);
+            double[] boxA = UnitUtility.ThreeFromAnyToAny(A, B, C, UnitOfMeasure.meter, UnitOfMeasure.milimeter);
+            double[] boxB = UnitUtility.ThreeFromAnyToAny(box.A, box.B, box.C, UnitOfMeasure.meter, UnitOfMeasure.milimeter);
 
-            double[] temp = UnitUtility.ThreeFromAnyToAny(box.A, box.B, box.C, UnitOfMeasure.meter, UnitOfMeasure.milimeter);
-            Console.WriteLine(UnitOfMeasure.milimeter);
-            Console.WriteLine(temp[0]);
-            Console.WriteLine(temp[1]);
-            Console.WriteLine(temp[2]);
-
+            if (boxA[0] == boxB[0] && boxA[1] == boxB[1] && boxA[2] == boxB[2])
+                return true;
 
             return false;
         }
 
 
-        // override object.GetHashCode
+
+        //HashCode
         public override int GetHashCode()
         {
             // TODO: write your implementation of GetHashCode() here
-            return A.GetHashCode() + B.GetHashCode() + C.GetHashCode() + unitOfMeasure.GetHashCode();
+            return HashCode.Combine(a, b, c);
+            //return A.GetHashCode() + B.GetHashCode() + C.GetHashCode() + unitOfMeasure.GetHashCode();
             //return base.GetHashCode();
         }
 
 
 
-        /* #FIX# == throws exception when Equals() is called???
+        //Operators
         public static bool operator ==(Pudelko boxA, Pudelko boxB)
         {
             return boxA.Equals(boxB);
@@ -158,6 +156,22 @@ namespace Pudelko
         {
             return !boxA.Equals(boxB);
         }
-        */
+
+
+
+        //Conversions
+        public static explicit operator double[](Pudelko box)
+        {
+            return new double[] { box.A, box.B, box.C };
+        }
+        public static implicit operator Pudelko(ValueTuple<int, int, int> tuple)
+        {
+            return new Pudelko(tuple.Item1, tuple.Item2, tuple.Item3, UnitOfMeasure.milimeter);
+        }
+
+
+
+        //Indexer
+        public int This[int]{}
     }
 }

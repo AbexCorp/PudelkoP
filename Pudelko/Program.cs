@@ -40,6 +40,16 @@ namespace Pudelko
 
 
             Console.WriteLine();
+            Console.WriteLine("1, 2, 0.5");
+            Pudelko ass4 = new Pudelko(1,2,0.5);
+
+            Console.WriteLine(ass4.UnitOfMeasure);
+            Console.WriteLine(ass4.ToString("m"));
+            Console.WriteLine(ass4.ToString("cm"));
+            Console.WriteLine(ass4.ToString("mm"));
+
+
+            Console.WriteLine();
             Console.WriteLine("-------------------------------------------");
             Console.WriteLine();
             Console.WriteLine("Volume");
@@ -64,7 +74,28 @@ namespace Pudelko
             Console.WriteLine(ass3.Equals(ass1));
 
             //Hashcode
+            Console.WriteLine();
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("Hashcode");
+            Console.WriteLine(ass1.GetHashCode());
+            Console.WriteLine(ass2.GetHashCode());
+            Console.WriteLine(ass3.GetHashCode());
             //Operators
+            Console.WriteLine();
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("Hashcode");
+            Console.WriteLine(ass1 == ass2);
+            Console.WriteLine(ass2 == ass3);
+            Console.WriteLine(ass3 == ass1);
+            Console.WriteLine(!(ass1 != ass2));
+            Console.WriteLine(!(ass2 != ass3));
+            Console.WriteLine(!(ass3 != ass1));
+
+            //Conversions
+
+
         }
     }
 }

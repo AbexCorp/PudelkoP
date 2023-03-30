@@ -40,6 +40,15 @@ namespace Pudelko
             return (Math.Round((number / 10), 1));
         }
         
+        
+        public static double OneToAny(double a, UnitOfMeasure desired)
+        {
+            if(desired == UnitOfMeasure.meter)
+                return ToMeter(a);
+            if(desired == UnitOfMeasure.centimeter)
+                return ToCentimeter(a);
+            return a;
+        }
 
 
         public static double[] ThreeFromAny(double a, double b, double c, UnitOfMeasure current)

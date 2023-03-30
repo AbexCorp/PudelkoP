@@ -4,12 +4,12 @@ using System.Text;
 using System.Globalization;
 
 using Pudelko.Enums;
-
+using System.Collections;
 
 namespace Pudelko
 {
     //Constructor
-    public sealed class Pudelko : IEquatable<Pudelko> //: IFormattable #FIX#
+    public sealed class Pudelko : IEquatable<Pudelko>, IEnumerator<Pudelko>, IEnumerable<Pudelko>//, IFormattable #FIX#
     {
         //To do
         //IFormatable
@@ -48,6 +48,9 @@ namespace Pudelko
             this.c = dimensions[2];
             unitOfMeasure = unit;
 
+            dimensionArray[0] = UnitUtility.OneToAny(a, UnitOfMeasure);
+            dimensionArray[1] = UnitUtility.OneToAny(b, UnitOfMeasure);
+            dimensionArray[2] = UnitUtility.OneToAny(c, UnitOfMeasure);
         }
 
 
@@ -57,6 +60,8 @@ namespace Pudelko
         private double b;
         private double c;
         private UnitOfMeasure unitOfMeasure;
+        public double[] dimensionArray;
+        private bool disposedValue;
 
 
         //Properties
@@ -76,6 +81,10 @@ namespace Pudelko
         {
             get { return Math.Round((2 * (A * B) + 2 * (B * C) + 2 * (C * A)), 6); }
         }
+
+        public Pudelko Current => throw new NotImplementedException();
+
+        object System.Collections.IEnumerator.Current => throw new NotImplementedException();
 
 
 
@@ -146,7 +155,6 @@ namespace Pudelko
         }
 
 
-
         //Operators
         public static bool operator ==(Pudelko boxA, Pudelko boxB)
         {
@@ -171,7 +179,42 @@ namespace Pudelko
 
 
 
-        //Indexer
-        public int This[int]{}
+        //Indexer Iterator
+        public double this[int index]
+        {
+            get
+            {
+                if(index > 2 || index < 0)
+                    throw new IndexOutOfRangeException();
+                return dimensionArray[index];
+            }
+        }
+
+        public IEnumerator<Pudelko> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        
+        public bool MoveNext()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

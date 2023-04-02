@@ -93,8 +93,47 @@ namespace Pudelko
             Console.WriteLine(!(ass2 != ass3));
             Console.WriteLine(!(ass3 != ass1));
 
+            //
+            //
+            //
             //Conversions
+            //
+            //
+            //
 
+            //Index
+            Console.WriteLine();
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("Indexer");
+            Console.WriteLine(ass1.ToString());
+            Console.WriteLine(ass1[0]);
+            Console.WriteLine(ass1[1]);
+            Console.WriteLine(ass1[2]);
+            Console.WriteLine();
+            Console.WriteLine(ass2.ToString());
+            Console.WriteLine(ass2[0]);
+            Console.WriteLine(ass2[1]);
+            Console.WriteLine(ass2[2]);
+            Console.WriteLine();
+            Console.WriteLine(ass3.ToString());
+            Console.WriteLine(ass3[0]);
+            Console.WriteLine(ass3[1]);
+            Console.WriteLine(ass3[2]);
+
+            //Foreach
+            Console.WriteLine();
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("Foreach");
+            Console.WriteLine(ass1.ToString());
+            foreach(double x in ass1) Console.WriteLine(x);
+            Console.WriteLine();
+            Console.WriteLine(ass2.ToString());
+            foreach (double x in ass2) Console.WriteLine(x);
+            Console.WriteLine();
+            Console.WriteLine(ass3.ToString());
+            foreach (double x in ass3) Console.WriteLine(x);
 
         }
     }

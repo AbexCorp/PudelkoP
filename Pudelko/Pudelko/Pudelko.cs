@@ -9,13 +9,11 @@ using System.Collections;
 namespace Pudelko
 {
     //Constructor
-    public sealed class Pudelko : IEquatable<Pudelko>, IEnumerator<Pudelko>, IEnumerable<Pudelko>//, IFormattable #FIX#
+    public sealed class Pudelko : IEquatable<Pudelko>, IEnumerable<double>//, IFormattable #FIX#
     {
         //To do
         //IFormatable
         //8 Operator +
-        //10
-        //11
         //12
         //13
         //14
@@ -48,9 +46,14 @@ namespace Pudelko
             this.c = dimensions[2];
             unitOfMeasure = unit;
 
-            dimensionArray[0] = UnitUtility.OneToAny(a, UnitOfMeasure);
-            dimensionArray[1] = UnitUtility.OneToAny(b, UnitOfMeasure);
-            dimensionArray[2] = UnitUtility.OneToAny(c, UnitOfMeasure);
+            //This probably converts the numbers two times for some reason
+            //dimensionArray[0] = UnitUtility.OneToAny(a, UnitOfMeasure);
+            //dimensionArray[1] = UnitUtility.OneToAny(b, UnitOfMeasure);
+            //dimensionArray[2] = UnitUtility.OneToAny(c, UnitOfMeasure);
+
+            dimensionArray[0] = a;
+            dimensionArray[1] = b;
+            dimensionArray[2] = c;
         }
 
 
@@ -60,8 +63,8 @@ namespace Pudelko
         private double b;
         private double c;
         private UnitOfMeasure unitOfMeasure;
-        public double[] dimensionArray;
-        private bool disposedValue;
+        public double[] dimensionArray = new double[3];
+
 
 
         //Properties
@@ -84,7 +87,6 @@ namespace Pudelko
 
         public Pudelko Current => throw new NotImplementedException();
 
-        object System.Collections.IEnumerator.Current => throw new NotImplementedException();
 
 
 
@@ -154,6 +156,8 @@ namespace Pudelko
             //return base.GetHashCode();
         }
 
+        
+
 
         //Operators
         public static bool operator ==(Pudelko boxA, Pudelko boxB)
@@ -190,31 +194,24 @@ namespace Pudelko
             }
         }
 
-        public IEnumerator<Pudelko> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
 
+
+        //Enumerable
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < dimensionArray.Length; i++)
+            {
+                yield return dimensionArray[i];
+            }
         }
 
-
-        
-        public bool MoveNext()
+        IEnumerator<double> IEnumerable<double>.GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < dimensionArray.Length; i++)
+            {
+                yield return dimensionArray[i];
+            }
         }
 
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

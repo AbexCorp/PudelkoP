@@ -34,7 +34,6 @@ namespace Pudelko
             if (a <= 0 || b <= 0 || c <= 0)
                 throw new ArgumentOutOfRangeException("Each side of the box must be at least 1mm wide");
 
-
             //Store size as milimeters
             double[] dimensions = UnitUtility.ThreeFromAnyToAny(a, b, c, unit, UnitOfMeasure.milimeter);
 
@@ -183,7 +182,7 @@ namespace Pudelko
 
 
 
-        //Indexer Iterator
+        //Indexer
         public double this[int index]
         {
             get
@@ -196,7 +195,7 @@ namespace Pudelko
 
 
 
-        //Enumerable
+        //Iterator
         IEnumerator IEnumerable.GetEnumerator()
         {
             for (int i = 0; i < dimensionArray.Length; i++)
@@ -212,6 +211,29 @@ namespace Pudelko
                 yield return dimensionArray[i];
             }
         }
+
+
+
+        //Parse
+        public static Pudelko Parse(string text)
+        {
+            //new P(2.5, 9.321, 0.1) == P.Parse("2.500 m × 9.321 m × 0.100 m")
+            if (text == null)
+                throw new ArgumentNullException();
+
+            string[] textToParse = text.Split('×', StringSplitOptions.RemoveEmptyEntries);
+            if (textToParse.Length != 3)
+                throw new FormatException();
+
+            double[] dimensions = ParseThreeNumbers(textToParse);
+            UnitOfMeasure unit = ParseGetUnit(textToParse[0]);
+
+            return new Pudelko(dimensions[0], dimensions[1], dimensions[2], unit);
+        }
+
+        private static UnitOfMeasure ParseGetUnit(string text) { throw new NotImplementedException(); }
+        private static double[] ParseThreeNumbers(string[] text) { throw new NotImplementedException(); }
+        private static double ParseNumber(string text) {throw new NotImplementedException();}
 
     }
 }

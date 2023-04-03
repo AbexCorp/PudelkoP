@@ -41,7 +41,7 @@ namespace Pudelko
 
             Console.WriteLine();
             Console.WriteLine("1, 2, 0.5");
-            Pudelko ass4 = new Pudelko(1,2,0.5);
+            Pudelko ass4 = new Pudelko(1, 2, 0.5);
 
             Console.WriteLine(ass4.UnitOfMeasure);
             Console.WriteLine(ass4.ToString("m"));
@@ -93,13 +93,24 @@ namespace Pudelko
             Console.WriteLine(!(ass2 != ass3));
             Console.WriteLine(!(ass3 != ass1));
 
-            //
-            //
-            //
             //Conversions
-            //
-            //
-            //
+            Console.WriteLine();
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("Conversions");
+
+            ValueTuple<int, int, int> testTuple = (100, 2768, 450);
+            Pudelko ass5 = testTuple;
+
+            Console.WriteLine(ass5.ToString());
+            Console.WriteLine(ass5.UnitOfMeasure);
+            Console.WriteLine(ass5.ToString("m"));
+            Console.WriteLine(ass5.ToString("cm"));
+            Console.WriteLine(ass5.ToString("mm"));
+
+            double[] ass6 = (double[])ass5;
+            Console.Write($"{ass6[0]} {ass6[1]} {ass6[2]}");
+
 
             //Index
             Console.WriteLine();

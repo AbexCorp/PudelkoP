@@ -14,7 +14,6 @@ namespace Pudelko
         //To do
         //IFormatable
         //8 Operator +
-        //12
         //13
         //14
         //15
@@ -223,7 +222,7 @@ namespace Pudelko
 
             string[] textToParse = text.Split('×', StringSplitOptions.RemoveEmptyEntries);
             if (textToParse.Length != 3)
-                throw new FormatException();
+                throw new FormatException("text to long or short");
 
             double[] dimensions = ParseThreeNumbers(textToParse);
             UnitOfMeasure unit = ParseGetUnit(textToParse[0]);
@@ -231,9 +230,54 @@ namespace Pudelko
             return new Pudelko(dimensions[0], dimensions[1], dimensions[2], unit);
         }
 
-        private static UnitOfMeasure ParseGetUnit(string text) { throw new NotImplementedException(); }
-        private static double[] ParseThreeNumbers(string[] text) { throw new NotImplementedException(); }
-        private static double ParseNumber(string text) {throw new NotImplementedException();}
+        private static double[] ParseThreeNumbers(string[] text)
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+
+            if (text[0] == null || text[1] == null || text[2] == null)
+                throw new ArgumentNullException();
+
+            double[] dimensions = { ParseNumber(text[0]), ParseNumber(text[1]), ParseNumber(text[2]) };
+            return dimensions;
+        }
+        private static double ParseNumber(string text)
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+
+            // "2.500 m × 9.321 m × 0.100 m"
+            // "2.500 m "  1
+            // " 9.321 m " 2
+            // " 0.100 m"  3
+            text = text.Trim();
+            if (text == null)
+                throw new ArgumentNullException();
+
+            string[] splitText = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (!double.TryParse(splitText[0], out double dimension))
+                throw new FormatException("dimension is incorrect");
+
+            return dimension;
+        }
+        private static UnitOfMeasure ParseGetUnit(string text)
+        {
+            text = text.Trim();
+            if (text == null)
+                throw new ArgumentNullException(); 
+
+            string[] splitText = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            switch(splitText[1])
+            {
+                case "m":
+                    return UnitOfMeasure.meter;
+                case "cm":
+                    return UnitOfMeasure.centimeter;
+                case "mm":
+                    return UnitOfMeasure.milimeter;
+                default:
+                    throw new FormatException("unit is incorrect");
+            }
+        }
 
     }
 }

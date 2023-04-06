@@ -146,6 +146,19 @@ namespace Pudelko
             Console.WriteLine(ass3.ToString());
             foreach (double x in ass3) Console.WriteLine(x);
 
+            //Parse
+            Console.WriteLine();
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("Parse");
+            Console.WriteLine(new Pudelko(2.5, 9.321, 0.1) == Pudelko.Parse("2.500 m × 9.321 m × 0.100 m"));
+            Pudelko ass7 = Pudelko.Parse("2.500 m × 9.321 m × 0.100 m");
+
+            Console.WriteLine(ass7.UnitOfMeasure);
+            Console.WriteLine(ass7.ToString("m"));
+            Console.WriteLine(ass7.ToString("cm"));
+            Console.WriteLine(ass7.ToString("mm"));
+
         }
     }
 }

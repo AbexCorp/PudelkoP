@@ -5,6 +5,7 @@ using System.Globalization;
 
 using PudelkoL.Enums;
 using System.Collections;
+using System.Transactions;
 
 namespace PudelkoL
 {
@@ -176,6 +177,102 @@ namespace PudelkoL
         public static bool operator !=(Pudelko boxA, Pudelko boxB)
         {
             return !boxA.Equals(boxB);
+        }
+
+        public static Pudelko operator +(Pudelko boxA, Pudelko boxB)
+        {
+            double[] sidesBoxA = UnitUtility.ThreeFromMeter(boxA.A, boxA.B, boxA.C);
+            double[] sidesBoxB = UnitUtility.ThreeFromMeter(boxB.A, boxB.B, boxB.C);
+
+            double[][] allSizes = GetAllPossibleBoxSizes(sidesBoxA[0], sidesBoxA[1], sidesBoxA[2], sidesBoxB[0], sidesBoxB[1], sidesBoxB[2]);
+            Pudelko newPudelko = new Pudelko();
+
+            double maxVolume = 1000000000001;
+            //Console.WriteLine();/////////////////////////////////////////////////
+            //int index = -1;////////////////////////////////////////////
+
+            for (int i = 0; i < 18; i++)
+            {
+                try
+                {
+                    //Console.WriteLine(allSizes[i][0] + " " + allSizes[i][1] + " " + allSizes[i][2] + " [" + i + "]");/////////////////////////////////////
+                    //Console.WriteLine((allSizes[i][0] * allSizes[i][1] * allSizes[i][2]));/////////////////////////////////////////
+                    Pudelko testSize = new Pudelko(allSizes[i][0], allSizes[i][1], allSizes[i][2], UnitOfMeasure.milimeter);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    continue;
+                }
+
+                if( (allSizes[i][0] * allSizes[i][1] * allSizes[i][2]) < maxVolume )
+                {
+                    maxVolume = (allSizes[i][0] * allSizes[i][1] * allSizes[i][2]);
+                    newPudelko = new Pudelko(allSizes[i][0], allSizes[i][1], allSizes[i][2], UnitOfMeasure.milimeter);
+                    //index = i;///////////////////////////////////////
+                }
+            }// 10 20 10 + 10 10 10       10 10 10 + 10 20 10
+            
+            if(maxVolume == 1000000000001)
+                throw new ArgumentOutOfRangeException("These boxes are too large");
+            //Console.WriteLine("index:" + index);/////////////////////////////////////////////////
+            return newPudelko;
+        }
+        private static double[][] GetAllPossibleBoxSizes(double a, double b, double c, double x, double y, double z)
+        {
+            double[][] allSizes = new double[18][];
+
+            allSizes[0] = CalculateBoxSize(a,b,c, x,y,z);
+            allSizes[1] = CalculateBoxSize(a,b,c, x,z,y);
+            allSizes[2] = CalculateBoxSize(a,b,c, y,x,z);
+            allSizes[3] = CalculateBoxSize(a,b,c, y,z,x);
+            allSizes[4] = CalculateBoxSize(a,b,c, z,x,y);
+            allSizes[5] = CalculateBoxSize(a,b,c, z,y,x);
+
+            allSizes[6] = CalculateBoxSize(b,a,c, x,y,z);
+            allSizes[7] = CalculateBoxSize(b,a,c, x,z,y);
+            allSizes[8] = CalculateBoxSize(b,a,c, y,x,z);
+            allSizes[9] = CalculateBoxSize(b,a,c, y,z,x);
+            allSizes[10] = CalculateBoxSize(b,a,c, z,x,y);
+            allSizes[11] = CalculateBoxSize(b,a,c, z,y,x);
+
+            allSizes[12] = CalculateBoxSize(c,a,b, x,y,z);
+            allSizes[13] = CalculateBoxSize(c,a,b, x,z,y);
+            allSizes[14] = CalculateBoxSize(c,a,b, y,x,z);
+            allSizes[15] = CalculateBoxSize(c,a,b, y,z,x);
+            allSizes[16] = CalculateBoxSize(c,a,b, z,x,y);
+            allSizes[17] = CalculateBoxSize(c,a,b, z,y,x);
+
+            return allSizes;
+        }
+        private static double[] CalculateBoxSize(double a, double b, double c, double x, double y, double z)
+        {
+            double sideA = a + x;
+
+            double sideB = 0;
+            if(b - y <= 0)
+            {
+                //sideB = b;
+                if (b >= y)
+                    sideB = b;
+                else
+                    sideB = y;
+            }
+            else
+                sideB = (b + Math.Abs(b - y));
+
+            double sideC = 0;
+            if (c - z <= 0)
+            {
+                //sideC = c;
+                if (c >= z)
+                    sideC = c;
+                else
+                    sideC = z;
+            }
+            else
+                sideC = (c + Math.Abs(c - z));
+
+            return new double[] {sideA, sideB, sideC };
         }
 
 

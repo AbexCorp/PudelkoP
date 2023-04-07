@@ -156,7 +156,24 @@ namespace PudelkoL
             Console.WriteLine(ass7.UnitOfMeasure);
             Console.WriteLine(ass7.ToString("m"));
             Console.WriteLine(ass7.ToString("cm"));
-            Console.WriteLine(ass7.ToString("mm")); 
+            Console.WriteLine(ass7.ToString("mm"));
+
+            //+ Operator
+            Console.WriteLine();
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("+ Operator");
+
+            Pudelko smallBox1 = new Pudelko(10,10,10, UnitOfMeasure.milimeter);
+            Pudelko smallBox2 = new Pudelko(10, 20, 10, UnitOfMeasure.milimeter);
+            Pudelko bigBox = smallBox2 + smallBox1;
+            Console.WriteLine(bigBox.ToString("mm"));
+            bigBox = smallBox1 + smallBox2;
+            Console.WriteLine(bigBox.ToString("mm"));
+            bigBox = smallBox1 + smallBox1;
+            Console.WriteLine(bigBox.ToString("mm"));
+            bigBox = smallBox2 + smallBox2;
+            Console.WriteLine(bigBox.ToString("mm"));
         }
     }
 }

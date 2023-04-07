@@ -9,15 +9,17 @@ namespace PudelkoL
     {
         public static double FromMeter(double number)
         {
-            return (Math.Round(number, 3) * 1000);
+            //return (Math.Round(number, 3) * 1000); //OG
+            return (Math.Floor(number * 1000));
         }
         public static double FromCentimeter(double number)
         {
-            return (Math.Round(number, 1) * 10);
+            //return (Math.Round(number, 1) * 10); //OG
+            return (Math.Floor(number * 10));
         }
         public static double FromMilimeter(double number)
         {
-            return Math.Round(number, 0);
+            return Math.Floor(number);
         }
         public static double[] ThreeFromMeter(double a, double b, double c)
         {
@@ -27,6 +29,11 @@ namespace PudelkoL
         public static double[] ThreeFromCentimeter(double a, double b, double c)
         {
             double[] numbers =  { FromCentimeter(a), FromCentimeter(b), FromCentimeter(c) };
+            return numbers;
+        }
+        public static double[] ThreeFromMilimeter(double a, double b, double c)
+        {
+            double[] numbers = { FromMilimeter(a), FromMilimeter(b), FromMilimeter(c) };
             return numbers;
         }
 
@@ -57,7 +64,7 @@ namespace PudelkoL
                 return ThreeFromMeter(a, b, c);
             if(current == UnitOfMeasure.centimeter)
                 return ThreeFromCentimeter(a, b, c);
-            return new double[] { a, b, c };
+            return ThreeFromMilimeter(a, b, c);
         }
         public static double[] ThreeToAny(double a, double b, double c, UnitOfMeasure desired)
         {

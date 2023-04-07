@@ -7,8 +7,6 @@ namespace PudelkoL
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Hello World!");
-
             Console.WriteLine();
             Console.WriteLine("Milimeter 160, 370, 1200");
             Pudelko ass1 = new Pudelko(160, 370, 1200, UnitOfMeasure.milimeter);
@@ -81,6 +79,7 @@ namespace PudelkoL
             Console.WriteLine(ass1.GetHashCode());
             Console.WriteLine(ass2.GetHashCode());
             Console.WriteLine(ass3.GetHashCode());
+
             //Operators
             Console.WriteLine();
             Console.WriteLine("-------------------------------------------");
@@ -157,8 +156,7 @@ namespace PudelkoL
             Console.WriteLine(ass7.UnitOfMeasure);
             Console.WriteLine(ass7.ToString("m"));
             Console.WriteLine(ass7.ToString("cm"));
-            Console.WriteLine(ass7.ToString("mm"));
-
+            Console.WriteLine(ass7.ToString("mm")); 
         }
     }
 }

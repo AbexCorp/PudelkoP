@@ -8,11 +8,9 @@ using System.Collections;
 
 namespace PudelkoL
 {
-    //Constructor
-    public sealed class Pudelko : IEquatable<Pudelko>, IEnumerable<double>, IFormattable //#FIX#
+    public sealed class Pudelko : IEquatable<Pudelko>, IEnumerable<double>, IFormattable
     {
         //To do
-        //IFormatable
         //8 Operator +
         //13
         //14
@@ -26,19 +24,25 @@ namespace PudelkoL
         //default is 10 x 10 x 10 cm
         //sealed (can't inherit)
 
-        //#FIX#
-        //Will create problems when someone sets one dimension and unit, other units could be set to something like 0.1mm.
-        public Pudelko(double a = 0.1, double b = 0.1, double c = 0.1, UnitOfMeasure unit = UnitOfMeasure.meter)
+        //>>>> Constructor <<<<
+        public Pudelko(double? a = null, double? b = null, double? c = null, UnitOfMeasure unit = UnitOfMeasure.meter)
         {
+            if (a == null)
+                a = UnitUtility.OneToAny(100, unit);
+            if(b == null)
+                b = UnitUtility.OneToAny(100, unit);
+            if(c == null)
+                c = UnitUtility.OneToAny(100, unit);
 
-            if (a <= 0 || b <= 0 || c <= 0)
-                throw new ArgumentOutOfRangeException("Each side of the box must be at least 1mm wide");
 
             //Store size as milimeters
-            double[] dimensions = UnitUtility.ThreeFromAnyToAny(a, b, c, unit, UnitOfMeasure.milimeter);
+            double[] dimensions = UnitUtility.ThreeFromAnyToAny((double)a, (double)b, (double)c, unit, UnitOfMeasure.milimeter);
 
             if (dimensions[0] > 10000 || dimensions[1] > 10000 || dimensions[2] > 10000)
                 throw new ArgumentOutOfRangeException("Any side of the box can't be longer than 10m");
+            if (dimensions[0] < 1 || dimensions[1] < 1 || dimensions[2] < 1)
+                throw new ArgumentOutOfRangeException("Each side of the box must be at least 1mm wide");
+
 
             this.a = dimensions[0];
             this.b = dimensions[1];
@@ -50,14 +54,14 @@ namespace PudelkoL
             //dimensionArray[1] = UnitUtility.OneToAny(b, UnitOfMeasure);
             //dimensionArray[2] = UnitUtility.OneToAny(c, UnitOfMeasure);
 
-            dimensionArray[0] = a;
-            dimensionArray[1] = b;
-            dimensionArray[2] = c;
+            dimensionArray[0] = A;
+            dimensionArray[1] = B;
+            dimensionArray[2] = C;
         }
 
 
 
-        //Variables
+        //>>>> Variables <<<<
         private double a;
         private double b;
         private double c;
@@ -65,8 +69,7 @@ namespace PudelkoL
         public double[] dimensionArray = new double[3];
 
 
-
-        //Properties
+        //>>>> Properties <<<<
         public double A
         { get { return UnitUtility.ToMeter(a); } }
         public double B
@@ -89,10 +92,9 @@ namespace PudelkoL
 
 
 
-        //To String
-        //ToString(string format, IFormatProvider? formatProvider) { }
+        //>>>> To String <<<<
         //#FIX#
-        //The IFormatProvider needs to be variable that contains the culture, 
+        //The IFormatProvider should be a variable that contains the culture(???), 
         //it then passes the culture to other functions and they use it instead of hard typed one.
         public string ToString(string format, IFormatProvider formatProvider)
         {
@@ -111,11 +113,12 @@ namespace PudelkoL
 
             switch (format)
             {
+                case null:
                 case "m":
-                    return $"{UnitUtility.ToMeter(a)} m × {UnitUtility.ToMeter(b)} m × {UnitUtility.ToMeter(c)} m";
+                    return $"{UnitUtility.ToMeter(a):F3} m × {UnitUtility.ToMeter(b):F3} m × {UnitUtility.ToMeter(c):F3} m";
 
                 case "cm":
-                    return $"{UnitUtility.ToCentimeter(a)} cm × {UnitUtility.ToCentimeter(b)} cm × {UnitUtility.ToCentimeter(c)} cm";
+                    return $"{UnitUtility.ToCentimeter(a):F1} cm × {UnitUtility.ToCentimeter(b):F1} cm × {UnitUtility.ToCentimeter(c):F1} cm";
 
                 case "mm":
                     return $"{a} mm × {b} mm × {c} mm";
@@ -127,7 +130,7 @@ namespace PudelkoL
 
 
 
-        //Equatable
+        //>>>> Equatable <<<<
         public override bool Equals(object obj)
         {
             if (obj is Pudelko)
@@ -154,7 +157,7 @@ namespace PudelkoL
 
 
 
-        //HashCode
+        //>>>> HashCode <<<<
         public override int GetHashCode()
         {
             // TODO: write your implementation of GetHashCode() here
@@ -163,10 +166,9 @@ namespace PudelkoL
             //return base.GetHashCode();
         }
 
-        
 
 
-        //Operators
+        //>>>> Operators <<<<
         public static bool operator ==(Pudelko boxA, Pudelko boxB)
         {
             return boxA.Equals(boxB);
@@ -178,7 +180,7 @@ namespace PudelkoL
 
 
 
-        //Conversions
+        //>>>> Conversions <<<<
         public static explicit operator double[](Pudelko box)
         {
             return new double[] { box.A, box.B, box.C };
@@ -190,12 +192,12 @@ namespace PudelkoL
 
 
 
-        //Indexer
+        //>>>> Indexer <<<<
         public double this[int index]
         {
             get
             {
-                if(index > 2 || index < 0)
+                if(index < 0 || index > 2)
                     throw new IndexOutOfRangeException();
                 return dimensionArray[index];
             }
@@ -203,7 +205,7 @@ namespace PudelkoL
 
 
 
-        //Iterator
+        //>>>> Iterator <<<<
         IEnumerator IEnumerable.GetEnumerator()
         {
             for (int i = 0; i < dimensionArray.Length; i++)
@@ -222,7 +224,7 @@ namespace PudelkoL
 
 
 
-        //Parse
+        //>>>> Parse <<<<
         public static Pudelko Parse(string text)
         {
             //new P(2.5, 9.321, 0.1) == P.Parse("2.500 m × 9.321 m × 0.100 m")
@@ -254,9 +256,6 @@ namespace PudelkoL
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
 
             // "2.500 m × 9.321 m × 0.100 m"
-            // "2.500 m "  1
-            // " 9.321 m " 2
-            // " 0.100 m"  3
             text = text.Trim();
             if (text == null)
                 throw new ArgumentNullException();

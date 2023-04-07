@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
 
-using Pudelko.Enums;
+using PudelkoL.Enums;
 using System.Collections;
 
-namespace Pudelko
+namespace PudelkoL
 {
     //Constructor
-    public sealed class Pudelko : IEquatable<Pudelko>, IEnumerable<double>//, IFormattable #FIX#
+    public sealed class Pudelko : IEquatable<Pudelko>, IEnumerable<double>, IFormattable //#FIX#
     {
         //To do
         //IFormatable
@@ -26,7 +26,8 @@ namespace Pudelko
         //default is 10 x 10 x 10 cm
         //sealed (can't inherit)
 
-        // #FIX# unitOfMeasure of every Pudelko is always set to milimeter
+        //#FIX#
+        //Will create problems when someone sets one dimension and unit, other units could be set to something like 0.1mm.
         public Pudelko(double a = 0.1, double b = 0.1, double c = 0.1, UnitOfMeasure unit = UnitOfMeasure.meter)
         {
 
@@ -89,7 +90,15 @@ namespace Pudelko
 
 
         //To String
-        //ToString(string format, IFormatProvider? formatProvider) { } //#FIX#
+        //ToString(string format, IFormatProvider? formatProvider) { }
+        //#FIX#
+        //The IFormatProvider needs to be variable that contains the culture, 
+        //it then passes the culture to other functions and they use it instead of hard typed one.
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return ToString(format);
+        }
+
         override public string ToString()
         {
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
@@ -278,6 +287,5 @@ namespace Pudelko
                     throw new FormatException("unit is incorrect");
             }
         }
-
     }
 }

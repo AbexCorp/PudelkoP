@@ -1,7 +1,7 @@
 ﻿using System;
-using Pudelko.Enums;
+using PudelkoL.Enums;
 
-namespace Pudelko
+namespace PudelkoL
 {
     class Program
     {

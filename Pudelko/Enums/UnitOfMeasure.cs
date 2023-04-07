@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Pudelko.Enums
+namespace PudelkoL.Enums
 {
     public enum UnitOfMeasure
     {

@@ -1,9 +1,9 @@
-﻿using Pudelko.Enums;
+﻿using PudelkoL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Pudelko
+namespace PudelkoL
 {
     public static class UnitUtility
     {

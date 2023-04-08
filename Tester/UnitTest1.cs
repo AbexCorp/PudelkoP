@@ -449,16 +449,117 @@ namespace PudelkoUnitTests
 
 
         #region Pole, Objêtoœæ ===================================
-        // ToDo
 
+        [DataTestMethod, TestCategory("Secondary properties")]
+        [DataRow(2, 2, 2, UnitOfMeasure.meter, 24)]
+        [DataRow(200, 200, 200, UnitOfMeasure.centimeter, 24)]
+        [DataRow(2000, 2000, 2000, UnitOfMeasure.milimeter, 24)]
+        [DataRow(3.792, 7.659, 2.133, UnitOfMeasure.meter, 106.935822)]
+        public void Area_Is_Correct(double a, double b, double c, UnitOfMeasure unit, double expectedValue)
+        {
+            Pudelko p = new Pudelko(a,b,c,unit);
+            Assert.AreEqual(p.Pole, expectedValue);
+        }
+
+        [DataTestMethod, TestCategory("Secondary properties")]
+        [DataRow(2, 2, 2, UnitOfMeasure.meter, 8)]
+        [DataRow(200, 200, 200, UnitOfMeasure.centimeter, 8)]
+        [DataRow(2000, 2000, 2000, UnitOfMeasure.milimeter, 8)]
+        [DataRow(3.792, 7.659, 2.133, UnitOfMeasure.meter, 61.948565424)]
+        public void Volume_Is_Correct(double a, double b, double c, UnitOfMeasure unit, double expectedValue)
+        {
+            Pudelko p = new Pudelko(a, b, c, unit);
+            Assert.AreEqual(p.Objetosc, expectedValue);
+        }
         #endregion
 
+
         #region Equals ===========================================
-        // ToDo
+
+        [DataTestMethod, TestCategory("Equatable")]
+        [DataRow(2, 2, 2, UnitOfMeasure.meter, 200, 200, 200, UnitOfMeasure.centimeter)]
+        [DataRow(200, 200, 200, UnitOfMeasure.centimeter, 2000, 2000, 2000, UnitOfMeasure.milimeter)]
+        [DataRow(2000, 2000, 2000, UnitOfMeasure.milimeter, 2, 2, 2, UnitOfMeasure.meter)]
+        [DataRow(20, 30, 40, UnitOfMeasure.milimeter, 40, 20, 30, UnitOfMeasure.milimeter)]
+        [DataRow(20, 30, 40, UnitOfMeasure.milimeter, 4, 2, 3, UnitOfMeasure.centimeter)]
+        public void Equals_Is_Equal(double a1, double b1, double c1, UnitOfMeasure unit1, double a2, double b2, double c2, UnitOfMeasure unit2)
+        {
+            Pudelko p1 = new Pudelko(a1, b1, c1, unit1);
+            Pudelko p2 = new Pudelko(a2, b2, c2, unit2);
+            Assert.IsTrue(p1.Equals(p2));
+        }
+
+        [DataTestMethod, TestCategory("Equatable")]
+        [DataRow(2, 2, 2, UnitOfMeasure.meter, 2, 2, 2, UnitOfMeasure.centimeter)]
+        [DataRow(2, 2, 2, UnitOfMeasure.centimeter, 2, 2, 2, UnitOfMeasure.milimeter)]
+        [DataRow(2, 2, 2, UnitOfMeasure.milimeter, 2, 2, 2, UnitOfMeasure.meter)]
+        [DataRow(20, 30, 40, UnitOfMeasure.milimeter, 40, 60, 80, UnitOfMeasure.milimeter)]
+        [DataRow(20, 30, 40, UnitOfMeasure.milimeter, 2, 3, 5, UnitOfMeasure.centimeter)]
+        public void Equals_Is_Not_Equal(double a1, double b1, double c1, UnitOfMeasure unit1, double a2, double b2, double c2, UnitOfMeasure unit2)
+        {
+            Pudelko p1 = new Pudelko(a1, b1, c1, unit1);
+            Pudelko p2 = new Pudelko(a2, b2, c2, unit2);
+            Assert.IsFalse(p1.Equals(p2));
+        }
+
         #endregion
 
         #region Operators overloading ===========================
-        // ToDo
+
+        [DataTestMethod, TestCategory("Operators")]
+        [DataRow(2, 2, 2, UnitOfMeasure.meter, 200, 200, 200, UnitOfMeasure.centimeter)]
+        [DataRow(200, 200, 200, UnitOfMeasure.centimeter, 2000, 2000, 2000, UnitOfMeasure.milimeter)]
+        [DataRow(2000, 2000, 2000, UnitOfMeasure.milimeter, 2, 2, 2, UnitOfMeasure.meter)]
+        [DataRow(20, 30, 40, UnitOfMeasure.milimeter, 40, 20, 30, UnitOfMeasure.milimeter)]
+        [DataRow(20, 30, 40, UnitOfMeasure.milimeter, 4, 2, 3, UnitOfMeasure.centimeter)]
+        public void Operator_Equal_Is_Equal(double a1, double b1, double c1, UnitOfMeasure unit1, double a2, double b2, double c2, UnitOfMeasure unit2)
+        {
+            Pudelko p1 = new Pudelko(a1, b1, c1, unit1);
+            Pudelko p2 = new Pudelko(a2, b2, c2, unit2);
+            Assert.IsTrue(p1==p2);
+        }
+
+        [DataTestMethod, TestCategory("Operators")]
+        [DataRow(2, 2, 2, UnitOfMeasure.meter, 2, 2, 2, UnitOfMeasure.centimeter)]
+        [DataRow(2, 2, 2, UnitOfMeasure.centimeter, 2, 2, 2, UnitOfMeasure.milimeter)]
+        [DataRow(2, 2, 2, UnitOfMeasure.milimeter, 2, 2, 2, UnitOfMeasure.meter)]
+        [DataRow(20, 30, 40, UnitOfMeasure.milimeter, 40, 60, 80, UnitOfMeasure.milimeter)]
+        [DataRow(20, 30, 40, UnitOfMeasure.milimeter, 2, 3, 5, UnitOfMeasure.centimeter)]
+        public void Operator_Equal_Is_Not_Equal(double a1, double b1, double c1, UnitOfMeasure unit1, double a2, double b2, double c2, UnitOfMeasure unit2)
+        {
+            Pudelko p1 = new Pudelko(a1, b1, c1, unit1);
+            Pudelko p2 = new Pudelko(a2, b2, c2, unit2);
+            Assert.IsFalse(p1 == p2);
+        }
+
+        [DataTestMethod, TestCategory("Operators")]
+        [DataRow(2, 2, 2, UnitOfMeasure.meter, 2, 2, 2, UnitOfMeasure.meter, 16)]
+        [DataRow(2, 2, 2, UnitOfMeasure.meter, 0.5, 0.5, 0.5, UnitOfMeasure.meter, 10)]
+        [DataRow(0.5, 0.5, 0.5, UnitOfMeasure.meter, 2, 2, 2, UnitOfMeasure.meter, 10)]
+        [DataRow(3, 3, 3, UnitOfMeasure.meter, 4, 1, 1, UnitOfMeasure.meter, 48)]
+        [DataRow(3, 3, 3, UnitOfMeasure.meter, 400, 100, 100, UnitOfMeasure.centimeter, 48)]
+        [DataRow(3, 3, 3, UnitOfMeasure.meter, 4000, 1000, 1000, UnitOfMeasure.milimeter, 48)]
+        [DataRow(300, 300, 300, UnitOfMeasure.centimeter, 4000, 1000, 1000, UnitOfMeasure.milimeter, 48)]
+        public void Operator_Add_Is_Possible(double a1, double b1, double c1, UnitOfMeasure unit1, double a2, double b2, double c2, UnitOfMeasure unit2, double expectedVolume)
+        {
+            Pudelko p1 = new Pudelko(a1, b1, c1, unit1);
+            Pudelko p2 = new Pudelko(a2, b2, c2, unit2);
+            Pudelko p3 = p1 + p2;
+            Assert.IsTrue(p3.Objetosc == expectedVolume);
+        }
+
+        [DataTestMethod, TestCategory("Operators")]
+        [DataRow(6, 6, 6, UnitOfMeasure.meter, 5, 5, 5, UnitOfMeasure.meter)]
+        [DataRow(5, 5, 5, UnitOfMeasure.meter, 6, 6, 6, UnitOfMeasure.meter)]
+        [DataRow(6, 6, 6, UnitOfMeasure.meter, 500, 500, 500, UnitOfMeasure.centimeter)]
+        [DataRow(5000, 5000, 5000, UnitOfMeasure.milimeter, 6, 6, 6, UnitOfMeasure.meter)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Operator_Add_Is_Not_Possible_Exception(double a1, double b1, double c1, UnitOfMeasure unit1, double a2, double b2, double c2, UnitOfMeasure unit2)
+        {
+            Pudelko p1 = new Pudelko(a1, b1, c1, unit1);
+            Pudelko p2 = new Pudelko(a2, b2, c2, unit2);
+            Pudelko p3 = p1 + p2;
+        }
         #endregion
 
         #region Conversions =====================================
@@ -511,7 +612,7 @@ namespace PudelkoUnitTests
         #endregion
 
         #region Parsing =========================================
-
+        // ToDo
         #endregion
 
     }

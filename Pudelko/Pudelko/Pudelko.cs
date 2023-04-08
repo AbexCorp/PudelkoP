@@ -12,9 +12,6 @@ namespace PudelkoL
     public sealed class Pudelko : IEquatable<Pudelko>, IEnumerable<double>, IFormattable
     {
         //To do
-        //8 Operator +
-        //13
-        //14
         //15
         //16
 
@@ -63,11 +60,11 @@ namespace PudelkoL
 
 
         //>>>> Variables <<<<
-        private double a;
-        private double b;
-        private double c;
-        private UnitOfMeasure unitOfMeasure;
-        public double[] dimensionArray = new double[3];
+        private readonly double a;
+        private readonly double b;
+        private readonly double c;
+        private readonly UnitOfMeasure unitOfMeasure;
+        public readonly double[] dimensionArray = new double[3];
 
 
         //>>>> Properties <<<<
@@ -150,6 +147,9 @@ namespace PudelkoL
             double[] boxA = UnitUtility.ThreeFromAnyToAny(A, B, C, UnitOfMeasure.meter, UnitOfMeasure.milimeter);
             double[] boxB = UnitUtility.ThreeFromAnyToAny(box.A, box.B, box.C, UnitOfMeasure.meter, UnitOfMeasure.milimeter);
 
+            Array.Sort(boxA);
+            Array.Sort(boxB);
+
             if (boxA[0] == boxB[0] && boxA[1] == boxB[1] && boxA[2] == boxB[2])
                 return true;
 
@@ -161,7 +161,6 @@ namespace PudelkoL
         //>>>> HashCode <<<<
         public override int GetHashCode()
         {
-            // TODO: write your implementation of GetHashCode() here
             return HashCode.Combine(a, b, c);
             //return A.GetHashCode() + B.GetHashCode() + C.GetHashCode() + unitOfMeasure.GetHashCode();
             //return base.GetHashCode();
@@ -187,13 +186,13 @@ namespace PudelkoL
             double[][] allSizes = GetAllPossibleBoxSizes(sidesBoxA[0], sidesBoxA[1], sidesBoxA[2], sidesBoxB[0], sidesBoxB[1], sidesBoxB[2]);
             Pudelko newPudelko = new Pudelko();
 
-            double maxVolume = 1000000000001;
+            double maxVolume = 1000000000001; //10m*10m*10m + 1mm
             //Console.WriteLine();/////////////////////////////////////////////////
             //int index = -1;////////////////////////////////////////////
 
             for (int i = 0; i < 18; i++)
             {
-                try
+                try //Check if it's possible to create a box with given sizes. If not, move to the next sizes,
                 {
                     //Console.WriteLine(allSizes[i][0] + " " + allSizes[i][1] + " " + allSizes[i][2] + " [" + i + "]");/////////////////////////////////////
                     //Console.WriteLine((allSizes[i][0] * allSizes[i][1] * allSizes[i][2]));/////////////////////////////////////////
@@ -210,7 +209,7 @@ namespace PudelkoL
                     newPudelko = new Pudelko(allSizes[i][0], allSizes[i][1], allSizes[i][2], UnitOfMeasure.milimeter);
                     //index = i;///////////////////////////////////////
                 }
-            }// 10 20 10 + 10 10 10       10 10 10 + 10 20 10
+            }
             
             if(maxVolume == 1000000000001)
                 throw new ArgumentOutOfRangeException("These boxes are too large");
@@ -249,6 +248,11 @@ namespace PudelkoL
             double sideA = a + x;
 
             double sideB = 0;
+            if (b >= y)
+                sideB = b;
+            else
+                sideB = y;
+            /*
             if(b - y <= 0)
             {
                 //sideB = b;
@@ -259,8 +263,14 @@ namespace PudelkoL
             }
             else
                 sideB = (b + Math.Abs(b - y));
+            */
 
             double sideC = 0;
+            if (c >= z)
+                sideC = c;
+            else
+                sideC = z;
+            /*
             if (c - z <= 0)
             {
                 //sideC = c;
@@ -271,6 +281,7 @@ namespace PudelkoL
             }
             else
                 sideC = (c + Math.Abs(c - z));
+            */
 
             return new double[] {sideA, sideB, sideC };
         }

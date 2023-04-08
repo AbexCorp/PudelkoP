@@ -164,16 +164,24 @@ namespace PudelkoL
             Console.WriteLine();
             Console.WriteLine("+ Operator");
 
-            Pudelko smallBox1 = new Pudelko(10,10,10, UnitOfMeasure.milimeter);
-            Pudelko smallBox2 = new Pudelko(10, 20, 10, UnitOfMeasure.milimeter);
-            Pudelko bigBox = smallBox2 + smallBox1;
+            Pudelko smallBox1 = new Pudelko(2,2,2, UnitOfMeasure.meter);
+            Pudelko smallBox2 = new Pudelko(1, 2, 1, UnitOfMeasure.meter);
+            Console.WriteLine(smallBox1.ToString("mm") + "  +  " + smallBox2.ToString("mm"));
+            Pudelko bigBox = smallBox1 + smallBox2;
             Console.WriteLine(bigBox.ToString("mm"));
-            bigBox = smallBox1 + smallBox2;
-            Console.WriteLine(bigBox.ToString("mm"));
-            bigBox = smallBox1 + smallBox1;
-            Console.WriteLine(bigBox.ToString("mm"));
-            bigBox = smallBox2 + smallBox2;
-            Console.WriteLine(bigBox.ToString("mm"));
+
+
+            //+ Tests
+            Console.WriteLine();
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("Tests");
+
+            
+            Pudelko p = new Pudelko(20, 30, 40, UnitOfMeasure.milimeter);
+            Pudelko p2 = new Pudelko(40, 20, 30, UnitOfMeasure.milimeter);
+            Console.WriteLine(p.Equals(p2));
+            Console.WriteLine(p.Equals(p));
         }
     }
 }

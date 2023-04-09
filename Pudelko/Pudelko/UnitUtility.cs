@@ -7,14 +7,13 @@ namespace PudelkoL
 {
     public static class UnitUtility
     {
+        //Tools used to convert between units
         public static double FromMeter(double number)
         {
-            //return (Math.Round(number, 3) * 1000); //OG
             return (Math.Floor(number * 1000));
         }
         public static double FromCentimeter(double number)
         {
-            //return (Math.Round(number, 1) * 10); //OG
             return (Math.Floor(number * 10));
         }
         public static double FromMilimeter(double number)
